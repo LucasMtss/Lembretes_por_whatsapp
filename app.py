@@ -47,6 +47,7 @@ db = SQLAlchemy(app)
 
 class Lembrete(db.Model):
     id = db.Column(db.Integer, primary_key=true)
+    user = db.Column(db.String(30), nullable=False)
     date = db.Column(db.String(10), nullable=False)
     hour = db.Column(db.String(5), nullable=False)
     notes = db.Column(db.String(100))
@@ -56,6 +57,7 @@ class Lembrete(db.Model):
     def toJson(self):
         return {
             "id": self.id,
+            "user": self.user,
             "date": self.date,
             "hour": self.hour,
             "notes": self.notes,
@@ -88,20 +90,21 @@ def formatDate(date):
     formatedDate = date.split('-')
     return f'{formatedDate[2]}/{formatedDate[1]}/{formatedDate[0]}'
 
-def findRemindersOfToday():
+def findRemindersOfToday(user):
     today = f'{datetime.today()}'
     today = today[:10]
-    return findReminders(formatDate(today))
+    return findReminders(formatDate(today), user)
 
-def findReminders(date):
-    reminders = Lembrete.query.filter_by(date=date)
+def findReminders(date, user):
+    reminders = Lembrete.query.filter_by(date=date, user=user)
     response = [reminder.toJson() for reminder in reminders]
     return formatRemindersForMessage(response, date)
 
-def formatReminderToCreate(message):
+def formatReminderToCreate(message, user):
     splitMessage = message.split("\n")
     newReminder = null
     newReminder.date = splitMessage[0]
+    newReminder.user = user
     newReminder.hour = splitMessage[1]
     newReminder.notes = splitMessage[2]
     newReminder.active = True
@@ -110,13 +113,15 @@ def formatReminderToCreate(message):
 
 def createReminder(reminder):
     try:
-        reminder = Lembrete(
+        newReminder = Lembrete(
+            user=reminder.user,
             date=reminder.date,
             hour=reminder.hour,
             notes=reminder.notes,
             active=reminder.active,
-            repeat=reminder.repeat)
-        db.session.add(reminder)
+            repeat=reminder.repeat
+            )
+        db.session.add(newReminder)
         db.session.commit()
         return CREATE_REMINDER_SUCCESS_MESSAGE
     except Exception as error:
@@ -126,22 +131,22 @@ def createReminder(reminder):
 def getMessage(request):
     return request.form['Body']
 
-def handleUserMessage(message):
+def handleUserMessage(message, user):
     formatedMessage = unidecode(message.lower())
     if formatedMessage == 'ola':
         return INITIAL_MESSAGE
     if formatedMessage == '1':
-        return findRemindersOfToday()
+        return findRemindersOfToday(user)
     if formatedMessage == '2':
         return INFORM_THE_DATE
     if formatedMessage == '3':
         return CREATE_REMINDER_SAMPLE
     if checkIfNewReminder(formatedMessage) == True:
-        reminder = formatReminderToCreate(message)
+        reminder = formatReminderToCreate(message, user)
         response = createReminder(reminder)
         return response
     if validateDate(message) == True:
-        res = findReminders(message)
+        res = findReminders(message, user)
         return res
     else:
         return ERROR_MESSAGE
@@ -154,9 +159,10 @@ def checkIfNewReminder(message):
 
 @app.route('/whatsapp', methods=['GET', 'POST'])
 def whatsapp():
-    response = handleUserMessage(getMessage(request))
+    user = request.form['From'].split('+')[1]
+    response = handleUserMessage(getMessage(request), user)
     if(response != ERROR_MESSAGE):
-        senderId = request.form['From'].split('+')[1]
+        senderId = user
         sendMessage(senderId=senderId, message=response)
     else:
         sendMessage(senderId=senderId, message=ERROR_MESSAGE)
