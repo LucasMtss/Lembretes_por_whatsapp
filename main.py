@@ -2,17 +2,12 @@
 from unidecode import unidecode
 from flask import  request
 from app import app
-import time
-from schedule import mySchedule
 import numpy
-
-
 from constants import CREATE_REMINDER_SAMPLE, ERROR_MESSAGE, INFORM_THE_DATE, INITIAL_MESSAGE
 from date import validateDate
 from reminders import createReminder, findReminders, findRemindersOfToday, formatReminderToCreate
-from schedule import remindersOfToday 
 from sendMessage import sendMessage
-from users import saveUser, searchUser
+from users import saveUser
 
 
 
