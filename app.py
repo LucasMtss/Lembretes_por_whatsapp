@@ -11,6 +11,7 @@ import os
 from dotenv import load_dotenv
 import datetime
 from sqlalchemy import null
+from datetime import date
 
 load_dotenv()
 app = Flask(__name__)
@@ -54,7 +55,7 @@ class Lembrete(db.Model):
 
 
 def findRemindersOfToday(user):
-    today = f'{datetime.today()}'
+    today = f'{date.today()}'
     today = today[:10]
     return findReminders(formatDate(today), user)
 
@@ -186,5 +187,5 @@ def whatsapp():
     return '200'
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
 
