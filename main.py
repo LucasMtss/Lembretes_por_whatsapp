@@ -41,7 +41,7 @@ def checkIfNewReminder(message):
         return False
 
 
-@app.route('/whatsapp', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def whatsapp():
     user = request.form['From'].split('+')[1]
     saveUser(user)
