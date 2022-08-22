@@ -185,5 +185,6 @@ def whatsapp():
         sendMessage(senderId=senderId, message=INITIAL_MESSAGE)
     return '200'
 
-app.run()
+if __name__ == "__main__":
+    app.run()
 
