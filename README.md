@@ -14,5 +14,12 @@ Para conexão com a Twilio, foi utilizado o framework Flask
 ## Screenshots
 
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/54159333/186006983-9945c857-3325-4360-8bc0-c6b08f417e3a.jpeg" />
+  <img src="https://github.com/LucasMtss/Lembretes_por_whatsapp/blob/main/screenshots/screenshot-saudacao.jpeg" height="600px"/>
+  <img src="https://github.com/LucasMtss/Lembretes_por_whatsapp/blob/main/screenshots/screenshot-lembretes-do-dia.jpeg" height="600px"/>
 </div>
+
+<div align="center">
+  <img src="https://github.com/LucasMtss/Lembretes_por_whatsapp/blob/main/screenshots/screenshot-salvar-lembrete.jpeg" height="600px"/>
+  <img src="https://github.com/LucasMtss/Lembretes_por_whatsapp/blob/main/screenshots/screenshot-pesquisar-dia.jpeg" height="600px"/>
+</div>
+
