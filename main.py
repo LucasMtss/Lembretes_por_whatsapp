@@ -54,5 +54,5 @@ def whatsapp():
         sendMessage(senderId=senderId, message=INITIAL_MESSAGE)
     return '200'
 
-app.run()
+app.run(port=5001)
 
