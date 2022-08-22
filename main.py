@@ -54,6 +54,5 @@ def whatsapp():
         sendMessage(senderId=senderId, message=INITIAL_MESSAGE)
     return '200'
 
-if __name__ == "__main__":
-    app.run(port=5000)
+app.run(port=5000, debug=True)
 
