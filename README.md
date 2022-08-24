@@ -18,6 +18,10 @@ Você pode consultar seus lembretes do dia corrente ou pesquisar lembretes de ou
 
 O deploy da aplicação e do banco de dados foi feito na Heroku
 
+## Link de tutorial para confiuração do projeto
+
+https://chief-brisket-643.notion.site/Tutorial-Lembretes-por-WhatsApp-f8f68e7427044eb8951459125c248f90
+
 ## Screenshots
 
 <div align="center">
